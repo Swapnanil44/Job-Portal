@@ -118,3 +118,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .gradient {
+    @apply bg-linear-to-br from-gray-500 via-gray-200 to-white;
+  }
+  .gradient-title {
+    @apply gradient text-transparent bg-clip-text;
+  }
+}
