@@ -4,10 +4,14 @@ import { Navigate, useLocation } from "react-router";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const {isSignedIn, isLoaded, user} = useUser();
-  const {pathName} = useLocation();
+  const {pathname} = useLocation();
   
   if(isLoaded && !isSignedIn && isSignedIn !== undefined){
     return <Navigate to="/?sign-in=true"/>
+  }
+
+  if(user !== undefined && !user.unsafeMetadata.role && pathname !== '/onboarding' ){
+    return <Navigate to="/onboarding"/>
   }
   return children
 }
