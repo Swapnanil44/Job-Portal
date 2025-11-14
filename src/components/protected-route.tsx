@@ -6,6 +6,8 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const {isSignedIn, isLoaded, user} = useUser();
   const {pathname} = useLocation();
   
+  // console.log(user);
+  
   if(isLoaded && !isSignedIn && isSignedIn !== undefined){
     return <Navigate to="/?sign-in=true"/>
   }
