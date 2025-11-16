@@ -45,7 +45,7 @@ export async function saveJob(
       .from("saved_jobs")
       .delete()
       .eq("job_id", saveData.job_id)
-      .eq("user_id",saveData.user_id);
+      .eq("user_id", saveData.user_id);
 
     if (deleteError) {
       console.log("Error deleting saved Jobs:", deleteError);
@@ -67,4 +67,23 @@ export async function saveJob(
 
     return data;
   }
+}
+
+export async function getSingleJob(token: string, options: { job_id: string }) {
+  const supabase = await supabaseClient(token);
+
+  const { data, error } = await supabase
+    .from("jobs")
+    .select(
+      "*, company:companies(name,logo_url), applications: applications(*)"
+    )
+    .eq("id", options.job_id)
+    .single();
+
+    if(error){
+      console.log("Error Fetching Company", error);
+      return null;
+    }
+
+    return data;
 }
