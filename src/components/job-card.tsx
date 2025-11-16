@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -30,7 +30,6 @@ function JobCard({
     fn: fnSaveJob,
     data: savedJob,
     loading: loadingSavedJob,
-    error,
   } = useFetch(saveJob, { saved });
 
   const { user } = useUser();

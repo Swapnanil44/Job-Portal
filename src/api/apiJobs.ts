@@ -81,7 +81,24 @@ export async function getSingleJob(token: string, options: { job_id: string }) {
     .single();
 
     if(error){
-      console.log("Error Fetching Company", error);
+      console.log(`Error Fetching job ${options.job_id}`, error);
+      return null;
+    }
+
+    return data;
+}
+
+export async function updateHiringStatus(token: string, options: { job_id: string },isOpen: boolean) {
+  const supabase = await supabaseClient(token);
+
+  const { data, error } = await supabase
+    .from("jobs")
+    .update({isOpen})
+    .eq("id", options.job_id)
+    .single();
+
+    if(error){
+      console.log(`Error updating job ${options.job_id}`, error);
       return null;
     }
 
