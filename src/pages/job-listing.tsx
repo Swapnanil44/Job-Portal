@@ -3,7 +3,6 @@ import JobCard from "@/components/job-card";
 import useFetch from "@/hooks/use-fetch";
 import { useUser } from "@clerk/clerk-react";
 import { useEffect, useMemo, useState } from "react";
-import type { DiscoverBehavior } from "react-router";
 import { BarLoader } from "react-spinners";
 
 function JobListing() {

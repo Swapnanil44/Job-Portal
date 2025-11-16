@@ -10,15 +10,17 @@ export async function getJobs(
 ) {
   const supabase = await supabaseClient(token);
 
-  let query = supabase.from("jobs").select("*, company:companies(name,logo_url), saved: saved_jobs(id)");
-  if(location){
-    query = query.eq("location",location)
+  let query = supabase
+    .from("jobs")
+    .select("*, company:companies(name,logo_url), saved: saved_jobs(id)");
+  if (location) {
+    query = query.eq("location", location);
   }
-  if(company_id){
-    query = query.eq("company_id",company_id);
+  if (company_id) {
+    query = query.eq("company_id", company_id);
   }
-  if(searchQuery){
-    query = query.ilike("title",`%${searchQuery}%`)
+  if (searchQuery) {
+    query = query.ilike("title", `%${searchQuery}%`);
   }
   const { data, error } = await query;
 
@@ -28,4 +30,41 @@ export async function getJobs(
   }
 
   return data;
+}
+
+export async function saveJob(
+  token: string,
+  options: { saved: boolean },
+  saveData: { user_id: string; job_id: string }
+) {
+  const supabase = await supabaseClient(token);
+
+  if (options.saved) {
+    console.log("Unsaving job...");
+    const { data, error: deleteError } = await supabase
+      .from("saved_jobs")
+      .delete()
+      .eq("job_id", saveData.job_id)
+      .eq("user_id",saveData.user_id);
+
+    if (deleteError) {
+      console.log("Error deleting saved Jobs:", deleteError);
+      return null;
+    }
+
+    return [];
+  } else {
+    console.log("Saving job...");
+    const { data, error: insertError } = await supabase
+      .from("saved_jobs")
+      .insert([saveData])
+      .select("*");
+
+    if (insertError) {
+      console.log("Error saving Job:", insertError);
+      return null;
+    }
+
+    return data;
+  }
 }
