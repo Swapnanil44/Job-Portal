@@ -7,6 +7,7 @@ import { useParams } from "react-router";
 import { BarLoader } from "react-spinners";
 import MDEditor from "@uiw/react-md-editor";
 import { Select, SelectContent, SelectTrigger, SelectValue,SelectItem } from "@/components/ui/select";
+import ApplyJobDrawer from "@/components/apply-job";
 
 function JobPage() {
   const { id } = useParams();
@@ -71,7 +72,7 @@ function JobPage() {
       {job?.recruiter_id === user?.id && (
         <Select onValueChange={handleStatusChange}>
           <SelectTrigger
-            className={`w-full ${job?.isOpen ? "bg-green-950" : "bg-red-950"}`}
+            className={`w-full ${job?.isOpen ? "bg-green-950 dark:bg-green-950" : "bg-red-950 dark:bg-red-950"} text-white`}
           >
             <SelectValue
               placeholder={
@@ -95,6 +96,15 @@ function JobPage() {
         source={job?.requirements.replace(/^-/gm, "- ")}
         className="bg-transparent sm:text-lg" // add global ul styles - tutorial
       />
+
+      {job?.recruiter_id !== user?.id  && (
+        <ApplyJobDrawer
+          job={job}
+          user={user}
+          fetchJob={fnJob}
+          applied={job?.applications?.find((ap: any) => ap.candidate_id === user?.id)}
+        />
+      )}
     </div>
   );
 }
