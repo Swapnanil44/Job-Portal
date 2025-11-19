@@ -41,7 +41,7 @@ export async function saveJob(
 
   if (options.saved) {
     console.log("Unsaving job...");
-    const { data, error: deleteError } = await supabase
+    const { error: deleteError } = await supabase
       .from("saved_jobs")
       .delete()
       .eq("job_id", saveData.job_id)

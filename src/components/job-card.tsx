@@ -33,12 +33,10 @@ function JobCard({
   } = useFetch(saveJob, { saved });
 
   const { user } = useUser();
-  if (!user) {
-    return;
-  }
+  
   const handleSaveJob = async () => {
     await fnSaveJob({
-      user_id: user.id,
+      user_id: user?.id,
       job_id: job.id,
     });
     onJobAction()

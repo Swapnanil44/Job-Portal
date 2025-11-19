@@ -2,7 +2,7 @@ import { useSession } from "@clerk/clerk-react";
 import { useCallback, useState } from "react";
 
 // Simplified version without generics
-const useFetch = (cb: Function, options: any = {}) => {
+const useFetch = (cb: (...args: any[]) => Promise<any>, options: any = {}) => {
   // data can be anything, so we use 'any'
   const [data, setData] = useState<any | undefined>(undefined);
   const [loading, setLoading] = useState<boolean | null>(null);

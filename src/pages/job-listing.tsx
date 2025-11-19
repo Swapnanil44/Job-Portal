@@ -15,7 +15,7 @@ import useFetch from "@/hooks/use-fetch";
 import { useUser } from "@clerk/clerk-react";
 import { useEffect, useMemo, useState } from "react";
 import { BarLoader } from "react-spinners";
-import { State, City } from "country-state-city";
+import { State} from "country-state-city";
 
 function JobListing() {
   // location,
@@ -39,7 +39,6 @@ function JobListing() {
   const {
     fn: fnCompanies,
     data: companies,
-    loading: loadingCompanies,
   } = useFetch(getCompanies);
 
   console.log(loadingJobs);
@@ -67,7 +66,7 @@ function JobListing() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    let formData = new FormData(e.currentTarget);
+    const formData = new FormData(e.currentTarget);
 
     const query = formData.get("search-query");
 

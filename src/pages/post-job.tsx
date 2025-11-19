@@ -30,7 +30,7 @@ const schema = z.object({
   requirements: z.string().min(1, { message: "Requirements are required" }),
 });
 function PostJob() {
-  const { user, isSignedIn, isLoaded } = useUser();
+  const { user, isLoaded } = useUser();
   const navigate = useNavigate();
   const {
     register,

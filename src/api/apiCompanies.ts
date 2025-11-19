@@ -13,7 +13,7 @@ export async function getCompanies(token: string) {
   return data;
 }
 
-export async function addNewCompany(token: string, _: any, companyData: any) {
+export async function addNewCompany(token: string, _: unknown, companyData: any) {
   const supabase = await supabaseClient(token);
 
   const random = Math.floor(Math.random() * 9000);
