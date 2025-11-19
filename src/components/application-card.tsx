@@ -1,6 +1,5 @@
 import { updateApplicationStatus } from "@/api/apiApplications";
 import useFetch from "@/hooks/use-fetch";
-import React from "react";
 import {
   Card,
   CardContent,

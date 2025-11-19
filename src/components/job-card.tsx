@@ -1,4 +1,5 @@
-import  { useEffect, useState } from "react";
+import { Heart, MapPinIcon, Trash2Icon } from "lucide-react";
+import { Button } from "./ui/button";
 import {
   Card,
   CardContent,
@@ -6,50 +7,60 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { Heart, MapPinIcon, Trash2Icon } from "lucide-react";
 import { Link } from "react-router";
-import { Button } from "./ui/button";
 import useFetch from "@/hooks/use-fetch";
-import { saveJob } from "@/api/apiJobs";
+import { deleteJob, saveJob } from "@/api/apiJobs";
 import { useUser } from "@clerk/clerk-react";
+import { useEffect, useState } from "react";
+import { BarLoader } from "react-spinners";
 
-function JobCard({
+const JobCard = ({
   job,
   savedInit = false,
-  isMyJob = false,
   onJobAction = () => {},
+  isMyJob = false,
 }: {
   job: any;
   savedInit?: boolean;
   isMyJob?: boolean;
   onJobAction?: () => void;
-}) {
+}) => {
   const [saved, setSaved] = useState(savedInit);
 
-  const {
-    fn: fnSaveJob,
-    data: savedJob,
-    loading: loadingSavedJob,
-  } = useFetch(saveJob, { saved });
-
   const { user } = useUser();
-  
+
+  const { loading: loadingDeleteJob, fn: fnDeleteJob } = useFetch(deleteJob, {
+    job_id: job.id,
+  });
+
+  const {
+    loading: loadingSavedJob,
+    data: savedJob,
+    fn: fnSavedJob,
+  } = useFetch(saveJob);
+
   const handleSaveJob = async () => {
-    await fnSaveJob({
+    await fnSavedJob({
       user_id: user?.id,
       job_id: job.id,
     });
-    onJobAction()
+    onJobAction();
   };
 
-  useEffect(() =>{
-    if(savedJob !== undefined){
-      setSaved(Array.isArray(savedJob) && savedJob.length > 0);
-    }
-  },[savedJob])
+  const handleDeleteJob = async () => {
+    await fnDeleteJob();
+    onJobAction();
+  };
+
+  useEffect(() => {
+    if (savedJob !== undefined) setSaved(savedJob?.length > 0);
+  }, [savedJob]);
 
   return (
     <Card className="flex flex-col">
+      {loadingDeleteJob && (
+        <BarLoader className="mt-4" width={"100%"} color="#36d7b7" />
+      )}
       <CardHeader className="flex">
         <CardTitle className="flex justify-between font-bold">
           {job.title}
@@ -58,7 +69,7 @@ function JobCard({
               fill="red"
               size={18}
               className="text-red-300 cursor-pointer"
-              onClick={() => {}}
+              onClick={handleDeleteJob}
             />
           )}
         </CardTitle>
@@ -96,6 +107,6 @@ function JobCard({
       </CardFooter>
     </Card>
   );
-}
+};
 
 export default JobCard;
