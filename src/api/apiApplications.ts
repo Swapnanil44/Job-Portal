@@ -53,3 +53,18 @@ export async function updateApplicationStatus(
 
   return data;
 }
+
+export async function getApplications(token: string, options: { user_id: string }) {
+  const supabase = await supabaseClient(token);
+  const { data, error } = await supabase
+    .from("applications")
+    .select("*, job:jobs(title, company:companies(name))")
+    .eq("candidate_id", options.user_id);
+
+  if (error) {
+    console.error("Error fetching Applications:", error);
+    return null;
+  }
+
+  return data;
+}
