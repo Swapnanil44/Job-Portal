@@ -23,7 +23,11 @@ function App() {
         },
         {
           path: "/onboarding",
-          element: <Onboarding />,
+          element: (
+            <ProtectedRoute>
+              <Onboarding />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "/jobs",

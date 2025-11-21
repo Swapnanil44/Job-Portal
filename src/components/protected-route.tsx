@@ -5,10 +5,14 @@ import { BarLoader } from "react-spinners";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isSignedIn, isLoaded, user } = useUser();
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
 
   // console.log(user);
   if (!isLoaded) {
+    return <BarLoader width={"100%"} color="#36d7b7" />;
+  }
+  
+  if (search.includes("__clerk_db_jwt")) {
     return <BarLoader width={"100%"} color="#36d7b7" />;
   }
 
