@@ -11,8 +11,12 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   if (!isLoaded) {
     return <BarLoader width={"100%"} color="#36d7b7" />;
   }
-  
-  if (search.includes("__clerk_db_jwt")) {
+
+  if (
+    search.includes("__clerk_db_jwt") ||
+    search.includes("clerk_handshake") ||
+    search.includes("clerk_action")
+  ) {
     return <BarLoader width={"100%"} color="#36d7b7" />;
   }
 
