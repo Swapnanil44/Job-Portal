@@ -26,12 +26,12 @@ function Onboarding() {
   };
 
   useEffect(() => {
-    if (user?.unsafeMetadata.role) {
+    if (user && user?.unsafeMetadata.role) {
       navigateUser(user?.unsafeMetadata.role as string);
     }
   }, [user]);
 
-  if (!isLoaded) {
+  if (user === undefined || !isLoaded) {
     return <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />;
   }
   return (
