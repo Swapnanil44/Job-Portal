@@ -5,36 +5,31 @@ import { useNavigate } from "react-router";
 import { BarLoader } from "react-spinners";
 
 function Onboarding() {
-
   const { isLoaded, user } = useUser();
-  const navigate = useNavigate()
-  const [loadingRole, setLoadingRole] = useState<string | null>(null);
+  const navigate = useNavigate();
 
-  const navigateUser =(role: string)=>{
-    navigate(role === 'recruiter' ? '/post-job' : '/jobs')
-  }
+  const navigateUser = (role: string) => {
+    navigate(role === "recruiter" ? "/post-job" : "/jobs");
+  };
 
   const handleRoleSelection = async (role: string) => {
     // Prevent double clicks
-    if(loadingRole) return;
 
-    setLoadingRole(role); // Start loading
-    
-    try {
-      await user?.update({ unsafeMetadata: { role } });
-      navigateUser(role);
-    } catch (error) {
-      console.error("Error updating role:", error);
-    } finally {
-      setLoadingRole(null); // Stop loading (if navigation fails)
-    }
+    await user?.update({ unsafeMetadata: { role } })
+      .then(() => {
+        console.log(`Role updated to: ${role}`);
+        navigateUser(role);
+      })
+      .catch((err) => {
+        console.error("Error updating role:", err);
+      });
   };
 
-  useEffect(() =>{
-    if(user?.unsafeMetadata.role){
+  useEffect(() => {
+    if (user?.unsafeMetadata.role) {
       navigateUser(user?.unsafeMetadata.role as string);
     }
-  },[user])
+  }, [user]);
 
   if (!isLoaded) {
     return <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />;
@@ -50,14 +45,14 @@ function Onboarding() {
           className="h-36 text-2xl cursor-pointer"
           onClick={() => handleRoleSelection("candidate")}
         >
-         {loadingRole === "candidate" ? "Updating..." : "Candidate"}
+          {"Candidate"}
         </Button>
         <Button
           variant="destructive"
           className="h-36 text-2xl cursor-pointer"
           onClick={() => handleRoleSelection("recruiter")}
         >
-          {loadingRole === "recruiter" ? "Updating..." : "Recruiter"}
+          {"Recruiter"}
         </Button>
       </div>
     </div>
