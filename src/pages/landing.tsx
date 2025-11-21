@@ -15,7 +15,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Briefcase, ChevronRight, Users } from "lucide-react";
+import { Briefcase, Users } from "lucide-react";
 
 const LandingPage = () => {
   return (
