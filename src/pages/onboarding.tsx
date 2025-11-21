@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/clerk-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { BarLoader } from "react-spinners";
 
@@ -8,22 +8,34 @@ function Onboarding() {
 
   const { isLoaded, user } = useUser();
   const navigate = useNavigate()
+  const [loadingRole, setLoadingRole] = useState<string | null>(null);
 
-  const navigareUser =(role: string)=>{
+  const navigateUser =(role: string)=>{
     navigate(role === 'recruiter' ? '/post-job' : '/jobs')
   }
-  const handleRoleSelection = async (role: string) =>{
-    await user?.update({unsafeMetadata: {role}}).then(() => {
-      navigareUser(role)
-    }).catch((error) => {
-      console.log(error)
-    })
-  }
+
+  const handleRoleSelection = async (role: string) => {
+    // Prevent double clicks
+    if(loadingRole) return;
+
+    setLoadingRole(role); // Start loading
+    
+    try {
+      await user?.update({ unsafeMetadata: { role } });
+      navigateUser(role);
+    } catch (error) {
+      console.error("Error updating role:", error);
+    } finally {
+      setLoadingRole(null); // Stop loading (if navigation fails)
+    }
+  };
+
   useEffect(() =>{
     if(user?.unsafeMetadata.role){
-      navigareUser(user?.unsafeMetadata.role as string);
+      navigateUser(user?.unsafeMetadata.role as string);
     }
   },[user])
+
   if (!isLoaded) {
     return <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />;
   }
@@ -38,14 +50,14 @@ function Onboarding() {
           className="h-36 text-2xl"
           onClick={() => handleRoleSelection("candidate")}
         >
-          Candidate
+         {loadingRole === "candidate" ? "Updating..." : "Candidate"}
         </Button>
         <Button
           variant="destructive"
           className="h-36 text-2xl"
           onClick={() => handleRoleSelection("recruiter")}
         >
-          Recruiter
+          {loadingRole === "recruiter" ? "Updating..." : "Recruiter"}
         </Button>
       </div>
     </div>
