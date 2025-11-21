@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import { BarLoader } from "react-spinners";
 
 function Onboarding() {
+
   const { isLoaded, user } = useUser();
   const navigate = useNavigate()
 
@@ -27,7 +28,7 @@ function Onboarding() {
     return <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />;
   }
   return (
-    <div className="flex flex-col items-center justify-center mt-40">
+    <div className="flex flex-col items-center justify-center mt-32 z-10 relative">
       <h2 className="gradient-title font-extrabold text-7xl sm:text-8xl tracking-tighter">
         I am a...
       </h2>
