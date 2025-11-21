@@ -17,6 +17,9 @@ createRoot(document.getElementById("root")!).render(
         baseTheme: shadesOfPurple,
       }}
       publishableKey={PUBLISHABLE_KEY}
+      afterSignOutUrl="/"
+      signInForceRedirectUrl="/onboarding"
+      signUpForceRedirectUrl="/onboarding"
     >
       <App />
     </ClerkProvider>
