@@ -22,6 +22,7 @@ function Onboarding() {
     
     try {
       await user?.update({ unsafeMetadata: { role } });
+      navigateUser(role);
     } catch (error) {
       console.error("Error updating role:", error);
     } finally {
@@ -46,14 +47,14 @@ function Onboarding() {
       <div className="mt-16 grid grid-cols-2 gap-4 w-full md:px-40">
         <Button
           variant="blue"
-          className="h-36 text-2xl"
+          className="h-36 text-2xl cursor-pointer"
           onClick={() => handleRoleSelection("candidate")}
         >
          {loadingRole === "candidate" ? "Updating..." : "Candidate"}
         </Button>
         <Button
           variant="destructive"
-          className="h-36 text-2xl"
+          className="h-36 text-2xl cursor-pointer"
           onClick={() => handleRoleSelection("recruiter")}
         >
           {loadingRole === "recruiter" ? "Updating..." : "Recruiter"}
