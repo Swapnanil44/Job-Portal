@@ -22,7 +22,6 @@ function Onboarding() {
     
     try {
       await user?.update({ unsafeMetadata: { role } });
-      navigateUser(role);
     } catch (error) {
       console.error("Error updating role:", error);
     } finally {
