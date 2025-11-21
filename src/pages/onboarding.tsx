@@ -13,7 +13,8 @@ function Onboarding() {
   };
 
   const handleRoleSelection = async (role: string) => {
-    // Prevent double clicks
+   
+    console.log("inside handleRoleSelection");
 
     await user?.update({ unsafeMetadata: { role } })
       .then(() => {
