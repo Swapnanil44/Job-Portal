@@ -1,26 +1,48 @@
+/* Updated class: .grid-background 
+  Theme: Ultra Dark / Void
+*/
 .grid-background {
+  /* 1. Base Color: Pure Black */
+  background-color: #000000;
+
+  /* 2. Positioning */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0.1) 1px,
-      transparent 1px
-    ),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-  background-size: 50px 50px;
-  pointer-events: none;
   z-index: -1;
+  pointer-events: none;
+
+  /* 3. Layers */
+  background-image: 
+    /* Layer A: Vertical Grid Lines (Very subtle white at 3.5% opacity) */
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    
+    /* Layer B: Horizontal Grid Lines (Very subtle white at 3.5% opacity) */
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    
+    /* Layer C: Indigo Glow (Dimmed to 15%) */
+    radial-gradient(circle at 20% -10%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+    
+    /* Layer D: Purple Glow (Dimmed to 15%) */
+    radial-gradient(circle at 80% 100%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+    
+    /* Layer E: Blue Glow (Dimmed to 10%) */
+    radial-gradient(circle at 0% 40%, rgba(59, 130, 246, 0.1) 0%, transparent 40%);
+
+  /* 4. Sizing */
+  background-size: 
+    50px 50px,   /* Grid W */
+    50px 50px,   /* Grid H */
+    100% 100%,   /* Glow C */
+    100% 100%,   /* Glow D */
+    100% 100%;   /* Glow E */
+
+  background-attachment: fixed;
 }
 
+/* Ensure no conflicts */
 .grid-background::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle, transparent, rgba(0, 0, 0, 0.9));
+  display: none;
 }
