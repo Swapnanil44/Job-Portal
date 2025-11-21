@@ -32,7 +32,7 @@ function Onboarding() {
     }
   }, [user]);
 
-  if (user === undefined || !isLoaded) {
+  if (user === undefined && !isLoaded) {
     return <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />;
   }
   return (
